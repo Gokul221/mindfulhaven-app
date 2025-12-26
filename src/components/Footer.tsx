@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Instagram, Youtube, MessageCircle, Mail, MapPin, Phone } from "lucide-react";
 
 const Footer = () => {
@@ -48,22 +48,22 @@ const Footer = () => {
             <h4 className="font-semibold text-foreground mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link to="/about" className="text-muted-foreground hover:text-primary transition-smooth">
+                <Link href="/about" className="text-muted-foreground hover:text-primary transition-smooth">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link to="/classes" className="text-muted-foreground hover:text-primary transition-smooth">
+                <Link href="/classes" className="text-muted-foreground hover:text-primary transition-smooth">
                   Classes
                 </Link>
               </li>
               <li>
-                <Link to="/membership" className="text-muted-foreground hover:text-primary transition-smooth">
+                <Link href="/membership" className="text-muted-foreground hover:text-primary transition-smooth">
                   Membership
                 </Link>
               </li>
               <li>
-                <Link to="/blog" className="text-muted-foreground hover:text-primary transition-smooth">
+                <Link href="/blog" className="text-muted-foreground hover:text-primary transition-smooth">
                   Blog
                 </Link>
               </li>
