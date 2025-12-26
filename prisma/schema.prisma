@@ -1,0 +1,131 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+}
+
+/**
+ * ----------------------------------------
+ * ENUMS
+ * -----------------------------------------
+ */
+
+enum Role {
+  USER
+  TRAINER
+  ADMIN
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELED
+}
+
+enum PaymentStatus {
+  SUCCEEDED
+  FAILED
+}
+
+enum PaymentProvider {
+  STRIPE
+  RAZORPAY
+}
+
+/**
+ * ----------------------------------------
+ * MODELS
+ * -----------------------------------------
+ */
+
+model User {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  name               String
+  email              String   @unique
+  password           String
+  role               Role     @default(USER)
+  stripeCustomerId   String?
+  subscriptionStatus String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  // Relations
+  bookings Booking[] @relation("UserBookings")
+  payments Payment[] @relation("UserPayments")
+  trainer  Trainer?
+
+  @@index([role])
+}
+
+model Trainer {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @unique @db.ObjectId
+  bio         String?
+  specialties String[]
+  createdAt   DateTime @default(now())
+
+  user    User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  classes YogaClass[]
+}
+
+model YogaClass {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String?
+  trainerId   String   @db.ObjectId
+  startAt     DateTime
+  endAt       DateTime
+  capacity    Int
+  priceCents  Int
+  location    String?
+  createdAt   DateTime @default(now())
+
+  trainer  Trainer   @relation(fields: [trainerId], references: [id], onDelete: Cascade)
+  bookings Booking[] @relation("ClassBookings")
+
+  @@index([trainerId])
+  @@index([startAt])
+}
+
+model Booking {
+  id        String        @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String        @db.ObjectId
+  classId   String        @db.ObjectId
+  status    BookingStatus @default(PENDING)
+  paymentId String?       @unique @db.ObjectId
+  createdAt DateTime      @default(now())
+
+  user      User      @relation("UserBookings", fields: [userId], references: [id], onDelete: Cascade)
+  yogaClass YogaClass @relation("ClassBookings", fields: [classId], references: [id], onDelete: Cascade)
+  payment   Payment?  @relation(fields: [paymentId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([classId])
+  @@index([status])
+}
+
+model Payment {
+  id          String          @id @default(auto()) @map("_id") @db.ObjectId
+  provider    PaymentProvider
+  providerId  String          @unique
+  userId      String          @db.ObjectId
+  amountCents Int
+  currency    String
+  status      PaymentStatus
+  metadata    Json?
+  createdAt   DateTime        @default(now())
+
+  user    User     @relation("UserPayments", fields: [userId], references: [id], onDelete: Cascade)
+  booking Booking?
+
+  @@index([userId])
+  @@index([status])
+}
