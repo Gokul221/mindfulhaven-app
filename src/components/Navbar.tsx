@@ -1,15 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
 
+import { useAuth } from "@/hooks/use-auth";
+import { UserNav } from "@/components/user-nav";
+import { cn } from "@/lib/utils";
+
 const Navbar = () => {
+  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const [isScroll, setIsScroll] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScroll(true);
+      } else {
+        setIsScroll(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -24,7 +44,9 @@ const Navbar = () => {
   const isActive = (path: string) => pathname === path;
 
   return (
-    <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+    <nav className={cn("sticky top-0 z-50 bg-background/50 backdrop-blur-sm border-b border-border", {
+      "shadow-sm": isScroll,
+    })}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           <Link href="/" className="flex items-center space-x-2">
@@ -46,9 +68,13 @@ const Navbar = () => {
             <Button asChild variant="ghost" className="mr-2">
               <Link href="/dashboard">Dashboard</Link>
             </Button>
-            <Button asChild variant="outline">
-              <Link href="/login">Login</Link>
-            </Button>
+            {user ? (
+              <UserNav />
+            ) : (
+              <Button asChild variant="outline">
+                <Link href="/login">Login</Link>
+              </Button>
+            )}
             <Button variant="default" className="ml-4">
               Book a Class
             </Button>
@@ -82,9 +108,20 @@ const Navbar = () => {
                   {link.name}
                 </Link>
               ))}
-              <Button asChild variant="outline" className="w-full">
-                <Link href="/login">Login</Link>
-              </Button>
+              {user ? (
+                <>
+                  <div className="flex items-center space-x-2 px-2 py-2">
+                    <span className="text-sm font-medium">Signed in as {user.name}</span>
+                  </div>
+                  <Button asChild variant="outline" className="w-full">
+                    <Link href="/profile">Profile</Link>
+                  </Button>
+                </>
+              ) : (
+                <Button asChild variant="outline" className="w-full">
+                  <Link href="/login">Login</Link>
+                </Button>
+              )}
               <Button variant="default" className="w-full">
                 Book a Class
               </Button>

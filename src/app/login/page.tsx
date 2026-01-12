@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -14,7 +14,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { storage } from "@/lib/storage";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function Login() {
     const [isLogin, setIsLogin] = useState(true);
@@ -22,7 +22,15 @@ export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [isTrainer, setIsTrainer] = useState(false);
     const router = useRouter();
+    const { login, user } = useAuth();
+
+    useEffect(() => {
+        if (user) {
+            router.push("/");
+        }
+    }, [user, router]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -47,12 +55,8 @@ export default function Login() {
                 }
 
                 toast.success("Login successful!");
-                // Store token if needed (e.g., in localStorage or use cookies set by server if implemented that way)
-                // For now, we assume the user might need to login or we just redirect safely.
-                // Adjusting based on common patterns: data.token is available.
-
                 if (data.token) {
-                    storage.set("token", data.token);
+                    login(data.token);
                 }
 
                 router.push("/");
@@ -71,7 +75,12 @@ export default function Login() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ name, email, password }),
+                body: JSON.stringify({
+                    name,
+                    email,
+                    password,
+                    role: isTrainer ? "TRAINER" : "USER"
+                }),
             });
 
             const data = await res.json();
@@ -82,12 +91,8 @@ export default function Login() {
             }
 
             toast.success("Account created successfully!");
-            // Store token if needed (e.g., in localStorage or use cookies set by server if implemented that way)
-            // For now, we assume the user might need to login or we just redirect safely.
-            // Adjusting based on common patterns: data.token is available.
-
             if (data.token) {
-                storage.set("token", data.token);
+                login(data.token);
             }
 
             router.push("/");
@@ -149,6 +154,22 @@ export default function Login() {
                                 required
                             />
                         </div>
+
+                        {!isLogin && (
+                            <div className="flex items-center space-x-2">
+                                <input
+                                    type="checkbox"
+                                    id="trainer-signup"
+                                    className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                                    checked={isTrainer}
+                                    onChange={(e) => setIsTrainer(e.target.checked)}
+                                />
+                                <Label htmlFor="trainer-signup" className="text-sm font-normal cursor-pointer">
+                                    Sign up as an Instructor/Trainer
+                                </Label>
+                            </div>
+                        )}
+
                         {isLogin && (
                             <div className="text-right">
                                 <Link href="#" className="text-sm text-primary hover:underline">

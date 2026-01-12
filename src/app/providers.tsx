@@ -10,6 +10,7 @@ import { useState } from "react";
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { UserPreferencesProvider } from "@/context/user-preferences-context";
+import { AuthProvider } from "@/context/auth-context";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
     const [queryClient] = useState(() => new QueryClient());
@@ -23,11 +24,13 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                 disableTransitionOnChange
             >
                 <UserPreferencesProvider>
-                    <TooltipProvider>
-                        {children}
-                        <Toaster />
-                        <Sonner />
-                    </TooltipProvider>
+                    <AuthProvider>
+                        <TooltipProvider>
+                            {children}
+                            <Toaster />
+                            <Sonner />
+                        </TooltipProvider>
+                    </AuthProvider>
                 </UserPreferencesProvider>
             </ThemeProvider>
         </QueryClientProvider>

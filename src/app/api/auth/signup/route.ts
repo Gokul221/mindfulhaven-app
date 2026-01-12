@@ -11,6 +11,7 @@ const signupSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters"),
     email: z.string().email("Invalid email address"),
     password: z.string().min(6, "Password must be at least 6 characters"),
+    role: z.enum(["USER", "TRAINER"]).optional(),
 });
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -29,7 +30,7 @@ export async function POST(req: Request) {
             );
         }
 
-        const { name, email, password } = result.data;
+        const { name, email, password, role } = result.data;
 
         // Check if user already exists
         const existingUser = await prisma.user.findUnique({
@@ -52,8 +53,19 @@ export async function POST(req: Request) {
                 name,
                 email,
                 password: hashedPassword,
+                role: role === "TRAINER" ? "TRAINER" : "USER",
             },
         });
+
+        // If role is TRAINER, create a Trainer profile
+        if (role === "TRAINER") {
+            await prisma.trainer.create({
+                data: {
+                    userId: newUser.id,
+                    specialties: [], // Initialize with empty array
+                }
+            });
+        }
 
         // Generate JWT
         const token = sign(

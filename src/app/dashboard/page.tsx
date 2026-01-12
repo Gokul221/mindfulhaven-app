@@ -1,10 +1,35 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Calendar, Clock, MapPin, User } from "lucide-react";
+import { Calendar, Clock, MapPin, User as UserIcon, Loader2 } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
+import { ClassesManager } from "@/components/ClassesManager";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Dashboard() {
+    const { user, loading } = useAuth();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!loading && !user) {
+            router.push("/login");
+        }
+    }, [user, loading, router]);
+
+    if (loading || !user) {
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+        );
+    }
+
+    const isTrainer = user.role === "TRAINER";
+
     return (
         <div className="container mx-auto px-4 py-8">
             <div className="flex flex-col md:flex-row gap-8">
@@ -14,18 +39,18 @@ export default function Dashboard() {
                         <CardHeader className="text-center">
                             <div className="mx-auto mb-4">
                                 <Avatar className="h-24 w-24">
-                                    <AvatarImage src="https://github.com/shadcn.png" alt="@user" />
-                                    <AvatarFallback>JD</AvatarFallback>
+                                    <AvatarImage src={user.image || ""} alt={user.name || "@user"} />
+                                    <AvatarFallback>{user.name ? user.name.charAt(0).toUpperCase() : "U"}</AvatarFallback>
                                 </Avatar>
                             </div>
-                            <CardTitle>Jane Doe</CardTitle>
-                            <CardDescription>Premium Member</CardDescription>
+                            <CardTitle>{user.name || "User"}</CardTitle>
+                            <CardDescription>{user.role}</CardDescription>
                         </CardHeader>
                         <CardContent>
                             <div className="space-y-4 text-sm">
                                 <div className="flex items-center gap-2">
-                                    <User className="h-4 w-4 text-muted-foreground" />
-                                    <span>Member since 2023</span>
+                                    <UserIcon className="h-4 w-4 text-muted-foreground" />
+                                    <span>Member since {new Date().getFullYear()}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <MapPin className="h-4 w-4 text-muted-foreground" />
@@ -46,7 +71,8 @@ export default function Dashboard() {
                     <Tabs defaultValue="overview" className="w-full">
                         <TabsList className="mb-4">
                             <TabsTrigger value="overview">Overview</TabsTrigger>
-                            <TabsTrigger value="classes">My Classes</TabsTrigger>
+                            <TabsTrigger value="classes">My Bookings</TabsTrigger>
+                            {isTrainer && <TabsTrigger value="manage-classes">Manage Classes</TabsTrigger>}
                             <TabsTrigger value="history">History</TabsTrigger>
                             <TabsTrigger value="settings">Settings</TabsTrigger>
                         </TabsList>
@@ -116,6 +142,12 @@ export default function Dashboard() {
                             </Card>
                         </TabsContent>
 
+                        {isTrainer && (
+                            <TabsContent value="manage-classes">
+                                <ClassesManager />
+                            </TabsContent>
+                        )}
+
                         <TabsContent value="history">
                             <Card>
                                 <CardHeader>
@@ -145,3 +177,4 @@ export default function Dashboard() {
         </div>
     );
 }
+
