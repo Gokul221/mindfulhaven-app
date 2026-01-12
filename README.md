@@ -1,73 +1,76 @@
-# Welcome to your Lovable project
+# Mindful Haven
+Mindful Haven is a holistic wellness application designed to connect users with expert trainers for yoga, meditation, and mindfulness practices. This platform facilitates seamless class management, booking, and user engagement, fostering a community dedicated to well-being.
+## Features
+### 🧘 For Users
+*   **Explore Classes**: Browse a variety of yoga and meditation classes by difficulty, style, and schedule.
+*   **User Dashboard**: Track upcoming bookings, past attendance, and membership status.
+*   **Secure Authentication**: Easy sign-up and login process.
+### 🧘‍♀️ For Trainers
+*   **Trainer Dashboard**: A dedicated space to manage your professional schedule.
+*   **Class Management**: Create, update, and delete your own classes.
+*   **Profile Management**: Showcase your specialties and bio (coming soon).
+### 🛠 Technical Highlights
+*   **Role-Based Access Control**: Secure routing and API protection distinguishing between `USER` and `TRAINER` roles.
+*   **Dynamic Data**: Real-time updates for class listings and availability.
+*   **Modern UI/UX**: Built with shadcn/ui and Tailwind CSS for a premium, accessible, and responsive design.
+## Tech Stack
+**Framework**: [Next.js 15](https://nextjs.org/) (App Router) <br>
+**Language**: [TypeScript](https://www.typescriptlang.org/) <br>
+**Styling**: [Tailwind CSS](https://tailwindcss.com/) <br>
+**UI Components**: [shadcn/ui](https://ui.shadcn.com/) (Radix UI) <br>
+**Database**: [MongoDB](https://www.mongodb.com/) <br>
+**ORM**: [Prisma](https://www.prisma.io/) <br>
+**Authentication**: Custom JWT-based auth <br>
+**Form Validation**: [Zod](https://zod.dev/) <br>
+**Icons**: [Lucide React](https://lucide.dev/) <br>
 
-## Project info
-
-**URL**: https://lovable.dev/projects/a734a90a-9ff5-4b88-a51d-e8f55ee04f23
-
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/a734a90a-9ff5-4b88-a51d-e8f55ee04f23) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/a734a90a-9ff5-4b88-a51d-e8f55ee04f23) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## Getting Started
+### Prerequisites
+*   Node.js (v18 or higher)
+*   npm or yarn
+*   MongoDB instance
+### Installation
+1.  **Clone the repository**
+    ```bash
+    git clone <repository-url>
+    cd mindfulhaven-app
+    ```
+2.  **Install dependencies**
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
+3.  **Environment Setup**
+    Create a `.env` file in the root directory and add your environment variables:
+    ```env
+    DATABASE_URL="mongodb+srv://..."
+    JWT_SECRET="your-super-secret-key"
+    ```
+4.  **Database Setup**
+    Push the Prisma schema to your database:
+    ```bash
+    npx prisma db push
+    ```
+5.  **Run the development server**
+    ```bash
+    npm run dev
+    ```
+    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Usage Guide
+### Signing Up as a Trainer
+1.  Navigate to the **Sign Up** page.
+2.  Fill in your details.
+3.  Check the box **"Sign up as an Instructor/Trainer"**.
+4.  Once registered, you will be redirected to the dashboard where you can access the "Manage Classes" tab.
+### Creating a Class (Trainers Only)
+1.  Go to your **Dashboard**.
+2.  Click on the **"Manage Classes"** tab.
+3.  Click **"Create Class"**.
+4.  Fill in the class details (Title, Schedule, Price, Capacity) and save.
+## Project Structure
+*   `src/app`: App Router pages and API routes.
+*   `src/components`: Reusable UI components.
+*   `src/lib`: Utilities (Prisma client, Auth helpers, etc.).
+*   `src/context`: React Context providers (AuthContext).
+*   `prisma`: Database schema.
