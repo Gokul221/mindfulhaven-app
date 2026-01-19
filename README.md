@@ -1,5 +1,25 @@
-# Mindful Haven
-Mindful Haven is a holistic wellness application designed to connect users with expert trainers for yoga, meditation, and mindfulness practices. This platform facilitates seamless class management, booking, and user engagement, fostering a community dedicated to well-being.
+# 🧘‍♀️ Mindful Haven
+Mindful Haven is a holistic wellness application designed to connect users with expert trainers for yoga, meditation, and mindfulness practices. This platform facilitates seamless class management, booking, and user engagement, fostering a community dedicated to well-being. <br>
+
+Visit the Live Site now - [Mindful Haven](https://mindfulhaven-9w3gnqsrw-gokuls-projects-963b05d4.vercel.app/) <br>
+
+## Table of Contents
+- [Screenshots](#screenshots)
+- [Features](#features)
+- [Tech Stack and Tools](#tech-stack-and-tools)
+- [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+    - [Usage Guide](#usage-guide)
+    - [Project Structure](#project-structure)
+
+## Screenshots
+* Homepage ![Homepage](./screenshots/homepage.png) <br><br>
+* Dashboard ![Dashboard](./screenshots/dashboard.png) <br><br>
+* Trainer Profile ![Dashboard](./screenshots/dashboard_trainer_profile.png) <br>
+* Class Schedule ![Dashboard](./screenshots/class_schedule.png) <br>
+* Class Management ![Dashboard](./screenshots/class_management.png) <br>
+
 ## Features
 ### 🧘 For Users
 *   **Explore Classes**: Browse a variety of yoga and meditation classes by difficulty, style, and schedule.
@@ -11,9 +31,10 @@ Mindful Haven is a holistic wellness application designed to connect users with 
 *   **Profile Management**: Showcase your specialties and bio (coming soon).
 ### 🛠 Technical Highlights
 *   **Role-Based Access Control**: Secure routing and API protection distinguishing between `USER` and `TRAINER` roles.
+*   **Razorpay Payment Integration**: Full working payment gateway that accepts diverse payments (Cards, UPI, Wallets, Netbanking, EMI).
 *   **Dynamic Data**: Real-time updates for class listings and availability.
 *   **Modern UI/UX**: Built with shadcn/ui and Tailwind CSS for a premium, accessible, and responsive design.
-## Tech Stack
+## Tech Stack and Tools
 **Framework**: [Next.js 15](https://nextjs.org/) (App Router) <br>
 **Language**: [TypeScript](https://www.typescriptlang.org/) <br>
 **Styling**: [Tailwind CSS](https://tailwindcss.com/) <br>
@@ -23,6 +44,8 @@ Mindful Haven is a holistic wellness application designed to connect users with 
 **Authentication**: Custom JWT-based auth <br>
 **Form Validation**: [Zod](https://zod.dev/) <br>
 **Icons**: [Lucide React](https://lucide.dev/) <br>
+**IDE**: [Google Antigravity](https://antigravity.google/) <br>
+**API Testing**: [Postman](https://www.postman.com/) <br>
 
 ## Getting Started
 ### Prerequisites
