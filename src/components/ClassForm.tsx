@@ -38,7 +38,15 @@ export function ClassForm({ initialData, onSubmit, isLoading, onCancel }: ClassF
         const { name, value } = e.target;
         setFormData((prev) => ({
             ...prev,
-            [name]: name === "capacity" || name === "priceCents" ? Number(value) : value,
+            [name]: name === "capacity" ? Number(value) : value,
+        }));
+    };
+
+    const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setFormData((prev) => ({
+            ...prev,
+            priceCents: Math.round(Number(value) * 100),
         }));
     };
 
@@ -111,15 +119,16 @@ export function ClassForm({ initialData, onSubmit, isLoading, onCancel }: ClassF
                     />
                 </div>
                 <div className="space-y-2">
-                    <Label htmlFor="priceCents">Price (Cents)</Label>
+                    <Label htmlFor="priceCents">Price (₹)</Label>
                     <Input
                         id="priceCents"
                         name="priceCents"
                         type="number"
                         min="0"
+                        step="0.01"
                         required
-                        value={formData.priceCents}
-                        onChange={handleChange}
+                        value={formData.priceCents ? formData.priceCents / 100 : ""}
+                        onChange={handlePriceChange}
                     />
                 </div>
             </div>

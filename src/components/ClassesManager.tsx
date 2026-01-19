@@ -41,6 +41,7 @@ export function ClassesManager() {
     const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [editingClass, setEditingClass] = useState<YogaClass | null>(null);
 
+    // Fetch classes for this trainer
     const fetchClasses = async () => {
         try {
             setLoading(true);
@@ -65,6 +66,7 @@ export function ClassesManager() {
         }
     }, [user]);
 
+    // Create a new class
     const handleCreate = async (data: ClassFormData) => {
         try {
             const token = storage.get<string>("token");
@@ -90,6 +92,7 @@ export function ClassesManager() {
         }
     };
 
+    // Update an existing class
     const handleUpdate = async (data: ClassFormData) => {
         if (!editingClass) return;
         try {
@@ -116,6 +119,7 @@ export function ClassesManager() {
         }
     };
 
+    // Delete a class
     const handleDelete = async (classId: string) => {
         if (!confirm("Are you sure you want to delete this class?")) return;
 
@@ -140,6 +144,7 @@ export function ClassesManager() {
         }
     };
 
+    // Loading state
     if (loading) {
         return (
             <div className="flex justify-center p-8">
@@ -242,7 +247,7 @@ export function ClassesManager() {
                                 </div>
                                 <div className="flex items-center gap-2 text-muted-foreground">
                                     <MapPin className="h-4 w-4" />
-                                    <span>{cls.capacity} spots • ${(cls.priceCents / 100).toFixed(2)}</span>
+                                    <span>{cls.capacity} spots • ₹{(cls.priceCents / 100).toFixed(2)}</span>
                                 </div>
                             </CardContent>
                         </Card>

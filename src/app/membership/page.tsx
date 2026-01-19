@@ -6,7 +6,7 @@ export default function Membership() {
     const plans = [
         {
             name: "Drop-In",
-            price: "$25",
+            price: "₹500",
             period: "per class",
             description: "Perfect for trying out classes or occasional visits",
             features: [
@@ -19,7 +19,7 @@ export default function Membership() {
         },
         {
             name: "Monthly",
-            price: "$120",
+            price: "₹3,000",
             period: "per month",
             description: "Best value for regular practitioners",
             features: [
@@ -33,9 +33,9 @@ export default function Membership() {
         },
         {
             name: "Annual",
-            price: "$1,200",
+            price: "₹30,000",
             period: "per year",
-            description: "Save $240 with our annual commitment",
+            description: "Save ₹6,000 with our annual commitment",
             features: [
                 "Unlimited classes all year",
                 "Priority booking for all events",
@@ -132,11 +132,11 @@ export default function Membership() {
                                 <CardContent className="p-8">
                                     <h3 className="text-2xl font-bold mb-2">5-Class Pack</h3>
                                     <div className="mb-4">
-                                        <span className="text-3xl font-bold">$100</span>
-                                        <span className="text-muted-foreground ml-2">($20 per class)</span>
+                                        <span className="text-3xl font-bold">₹2,000</span>
+                                        <span className="text-muted-foreground ml-2">(₹400 per class)</span>
                                     </div>
                                     <p className="text-muted-foreground mb-6">
-                                        Valid for 3 months from purchase. Save $25 compared to drop-in rates.
+                                        Valid for 3 months from purchase. Save ₹500 compared to drop-in rates.
                                     </p>
                                     <Button className="w-full">Purchase Pack</Button>
                                 </CardContent>
@@ -146,11 +146,11 @@ export default function Membership() {
                                 <CardContent className="p-8">
                                     <h3 className="text-2xl font-bold mb-2">10-Class Pack</h3>
                                     <div className="mb-4">
-                                        <span className="text-3xl font-bold">$180</span>
-                                        <span className="text-muted-foreground ml-2">($18 per class)</span>
+                                        <span className="text-3xl font-bold">₹3,500</span>
+                                        <span className="text-muted-foreground ml-2">(₹350 per class)</span>
                                     </div>
                                     <p className="text-muted-foreground mb-6">
-                                        Valid for 6 months from purchase. Save $70 compared to drop-in rates.
+                                        Valid for 6 months from purchase. Save ₹1,500 compared to drop-in rates.
                                     </p>
                                     <Button className="w-full">Purchase Pack</Button>
                                 </CardContent>
